@@ -40,9 +40,12 @@ from rest_framework.validators import UniqueValidator
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'pass_count')
+        fields = ('username', 'password', 'first_name', 'last_name')
         extra_kwargs = {'password': {'write_only': True},
-                        'pass_count':{'required':False}}
+                        'pass_count':{'required':False},
+                        'first_name': {'required': False},
+                        'last_name': {'required': False}
+                        }
 
     def create(self, validated_data):
         password = validated_data.pop('password')
