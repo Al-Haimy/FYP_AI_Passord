@@ -1,17 +1,91 @@
 import { Container, Grid, TextField, Button, Card, CardContent, Stack, Link } from '@mui/material';
 import React, { useState } from 'react'
-import { postRegisterLogin } from '../config/api';
 import { useForm } from "react-hook-form";
-const SignUp = () => {
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import type { Dispatch } from '../Auth/AuthProvider';
+import { toast } from 'react-toastify';
+const SignUp = ({handler}:{handler:Dispatch}) => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
 
+const navigate = useNavigate();
+const gotoTraine = () => {
+    navigate('/Traine');
+
+}
 
 
     const onSubmit = (data: object) => {
-        postRegisterLogin({ ...data, "pattern": JSON.stringify(numper) });
+        console.log(data)
+        axios.post('http://localhost:8000/api/register2/?format=json', {
+            ...data, "pattern": JSON.stringify(numper)
+        })
+            .then(function (response) {
+                // console.log(response.data.refresh);
+            
+                console.log(response)
+                switch (response.data['type']){
+                    case 1:
+
+                        localStorage.setItem("auth", response.data['body']['access']);
+                        localStorage.setItem("refresh", response.data['body']['refresh']);
+                        localStorage.setItem("trained", response.data['body']['trained']);
+
+                        toast.success('Successfuly Registered ', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                        handler('LOGIN')
+                        gotoTraine()
+                    break;
+                    case 2:
+                        toast.error('Username already exist!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+
+                    break;
+
+                        default:{
+                            toast.error('Something is wrong!', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                        }
+                }
+          
+
+                    // console.log(tok['refresh']);
+
+
+            })
+            .catch(function (error) {
+                console.log(error)
+            });
+
+  
     }
+    
     const [numper, setNumper] = useState<Number[]>([]);
 
 
@@ -124,8 +198,8 @@ const SignUp = () => {
                                     justifyContent="space-between"
                                     alignItems="flex-end"
                                     spacing={2}>
-                                    <Link href='/sign-up'>Login?</Link>
-                                    <Link href='/sign-up'>already have an account </Link>
+                                    <Link href='/login'>Login?</Link>
+                                    <Link href='/login'>already have an account </Link>
 
                                 </Stack>
 

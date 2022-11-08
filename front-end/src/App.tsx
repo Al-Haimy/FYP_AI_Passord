@@ -1,13 +1,13 @@
 import React from 'react';
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 import PortectedRoute from './Auth/PortectedRoute'
 import Private from './pages/Priavte'
 import './App.css';
-import Home from './pages/Home';
-import AuthProvider, { useAuth } from './Auth/AuthProvider'
+import NotFound from './pages/NotFound'
+import { useAuth } from './Auth/AuthProvider'
 import Training from './pages/Training';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -39,24 +39,26 @@ function App() {
             <Login handler={dispatch} {...state} />
           } />
           <Route path='/sign-up' element={
-            <SignUp />
+            <SignUp handler={dispatch} />
           } />
           <Route path='/private' element={
             <PortectedRoute {...state}>
               <Private {...state} handler={dispatch} />
             </PortectedRoute>
           } />
-
           <Route path='/' element={
             <PortectedRoute {...state}>
-              <Home {...state} handler={dispatch} />
+              <Private {...state} handler={dispatch} />
             </PortectedRoute>
           } />
 
 
-          <Route path='/Traine' element={
 
-            <Training {...state} handler={dispatch} />
+
+          <Route path='/Traine' element={<Training {...state} handler={dispatch} />} />
+          <Route path='/*' element={
+
+            <NotFound />
 
           } />
 

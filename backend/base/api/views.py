@@ -115,9 +115,17 @@ def register_func(request):
         jwt_token = get_tokens_for_user(new_account)
 
         print(jwt_token)
-        return Response({f"{jwt_token}"})
+        message = {
+            "type": 1,
+            "body": jwt_token
+        }
+        return Response(message)
     except Exception as e:
-        print(e)
+        message = {
+            "type": 2,
+            "body": f"{e}"
+        }
+        return Response(message)
 
 
 # decoration for authentication jwt simple

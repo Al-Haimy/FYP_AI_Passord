@@ -7,8 +7,7 @@ import { useForm } from "react-hook-form";
 // import { postLogin } from '../config/api';
 import axios from 'axios';
 import { Dispatch, State } from '../Auth/AuthProvider';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { request } from 'https';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
@@ -57,7 +56,7 @@ const Login = ({ handler }: { handler: Dispatch }, state: State) => {
             })
                 .then(function (response) {
                     // console.log(response.data.refresh);
-                    const tok = JSON.stringify(response.data);
+                
                     console.log(response)
                     if (response.status > 299) {
                         setIsError(true)
@@ -81,6 +80,8 @@ const Login = ({ handler }: { handler: Dispatch }, state: State) => {
                                     progress: undefined,
                                     theme: "light",
                                 });
+
+                                handler('LOGIN')
                                 goToTraining()
 
                                 break;
@@ -163,7 +164,7 @@ const Login = ({ handler }: { handler: Dispatch }, state: State) => {
     const timeNow = () => {
 
         if (numper.length < 16) {
-            if (numper.length == 0) {
+            if (numper.length === 0) {
                 timeStart = Date.now()
                 numper.push(timeStart - timeStart)
             } else {

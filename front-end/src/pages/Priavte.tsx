@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import type { Dispatch, State } from '../Auth/AuthProvider'
+import type { Dispatch} from '../Auth/AuthProvider'
 
 const Priavte = ({ handler }: { handler: Dispatch }) => {
   const [fullName, setFullName] = useState<string | null>(null);

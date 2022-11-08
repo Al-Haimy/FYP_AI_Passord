@@ -1,5 +1,6 @@
 import { Container, Card, CardContent, Grid, TextField, Button } from '@mui/material'
 import axios from 'axios'
+import { stat } from 'fs/promises'
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +13,7 @@ const styled = {
 }
 
 const Training =  ({handler}: {handler: Dispatch}, state:State) => {
+
 
 
 
@@ -33,7 +35,7 @@ useEffect(() => {
   
 
   return () => {
-    if (token && isTrained == 'true'){
+    if (token && isTrained === 'true'){
         goToPrivate()
     
     }else if (!token){
